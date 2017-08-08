@@ -3,7 +3,6 @@ package com.android11.vrimage.find;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
@@ -17,7 +16,6 @@ import com.android11.vrimage.find.bean.FindListBean;
 import com.android11.vrimage.main.VrImageDetailActivity;
 import com.android11.vrimage.utils.Const;
 import com.android11.vrimage.utils.GsonUtils;
-import com.jaeger.library.StatusBarUtil;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -31,7 +29,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class FindFragment extends Fragment implements FindListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener,OnMoreListener {
+public class FindFragment extends Fragment implements FindListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
     @Bind(R.id.listview)
     SuperRecyclerView listview;
     private List<FindListBean.PayloadBean.PostsBean> list = new ArrayList<>();
@@ -70,10 +68,12 @@ public class FindFragment extends Fragment implements FindListAdapter.OnItemClic
                         }
                         list.addAll(bean.getPayload().getPosts());
                         adapter.notifyDataSetChanged();
+                        if (listview == null)
+                            return;
                         listview.setRefreshing(false);
-                        if(bean.getPayload().getPosts().size()>0){
+                        if (bean.getPayload().getPosts().size() > 0) {
                             listview.setOnMoreListener(FindFragment.this);
-                        }else {
+                        } else {
                             listview.removeMoreListener();
                         }
                     }

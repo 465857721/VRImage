@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+        vp.setOffscreenPageLimit(3);
     }
 
     @Override

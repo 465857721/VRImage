@@ -7,8 +7,8 @@ android {
         applicationId "com.android11.vriamge"
         minSdkVersion 19
         targetSdkVersion 19
-        versionCode 130
-        versionName "1.3.0"
+        versionCode 100
+        versionName "1.0.0beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

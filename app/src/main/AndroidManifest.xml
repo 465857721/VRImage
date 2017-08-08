@@ -20,11 +20,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
+        android:largeHeap="true"
         android:name=".main.APP"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -41,7 +41,8 @@
             android:theme="@style/AppThemeDarkActionBar"/>
         <activity
             android:name=".login.LoginActivity"/>
-
+        <activity
+            android:name=".main.AboutActivity"/>
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -64,7 +65,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"/>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5902e129aed17954fd00121e"/>
+            android:value="59897a021c5dd043470006e2"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="guanwang"/>
