@@ -17,6 +17,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -34,7 +35,7 @@ public class HomeListAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new OrderViewHolder(LayoutInflater.from(mActivity).inflate(R.layout.item_find, parent, false));
+        return new OrderViewHolder(LayoutInflater.from(mActivity).inflate(R.layout.item_home, parent, false));
 
     }
 
@@ -55,7 +56,8 @@ public class HomeListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final OrderViewHolder oholder = (OrderViewHolder) holder;
         FindListBean.PayloadBean.PostsBean bean = list.get(position);
-        String cover = String.format("https://storage.kuula.co/%s/01-cover.jpg", bean.getUuid());
+        String cover = String.format("https://storage.kuula.co/%s/01-tinyp-cover.jpg", bean.getUuid());
+
         Log.d("cover", cover);
         Glide.with(mActivity)
                 .load(cover)
@@ -72,9 +74,15 @@ public class HomeListAdapter extends RecyclerView.Adapter {
                 }
             });
         }
+
         oholder.tvname.setText(bean.getUser().getDisplayname());
-
-
+        String head = String.format("https://files.kuula.io/users/%s-icon.jpg", bean.getUser().getName());
+        Glide.with(mActivity)
+                .load(head)
+                .centerCrop()
+                .placeholder(R.drawable.default_avatar_round)
+                .dontAnimate()
+                .into(oholder.ivhead);
     }
 
     @Override
@@ -87,7 +95,8 @@ public class HomeListAdapter extends RecyclerView.Adapter {
         ImageView iv;
         @Bind(R.id.tv_name)
         TextView tvname;
-
+        @Bind(R.id.ivhead)
+        CircleImageView ivhead;
         public OrderViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

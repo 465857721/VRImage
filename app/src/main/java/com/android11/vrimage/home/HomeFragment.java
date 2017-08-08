@@ -69,6 +69,8 @@ public class HomeFragment extends Fragment implements HomeListAdapter.OnItemClic
                         }
                         list.addAll(bean.getPayload().getPosts());
                         adapter.notifyDataSetChanged();
+                        if(listview==null)
+                            return;
                         listview.setRefreshing(false);
                         if (bean.getPayload().getPosts().size() > 0) {
                             listview.setOnMoreListener(HomeFragment.this);
