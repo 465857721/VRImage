@@ -47,7 +47,7 @@ dependencies {
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     compile 'com.liulishuo.filedownloader:library:1.6.2'
     compile 'com.lzy.net:okgo:3.0.4'
-    compile 'com.google.vr:sdk-panowidget:1.30.0'
+    compile 'com.google.vr:sdk-panowidget:1.70.0'
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
 
 }

@@ -65,7 +65,7 @@ public class FindFragment extends Fragment implements FindListAdapter.OnItemClic
                     public void onSuccess(Response<String> response) {
                         Log.e("zk ", response.body());
                         FindListBean bean = GsonUtils.getGsonInstance().fromJson(response.body(), FindListBean.class);
-                        if (p == 1) {
+                        if (p == 0) {
                             list.clear();
                         }
                         list.addAll(bean.getPayload().getPosts());

@@ -1,4 +1,4 @@
-package com.android11.vrimage.find.adapter;
+package com.android11.vrimage.home.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -23,11 +23,11 @@ import butterknife.ButterKnife;
  * Created by yuxun on 2017/4/15.
  */
 
-public class FindListAdapter extends RecyclerView.Adapter {
+public class HomeListAdapter extends RecyclerView.Adapter {
     private List<FindListBean.PayloadBean.PostsBean> list;
     private Context mActivity;
 
-    public FindListAdapter(List<FindListBean.PayloadBean.PostsBean> list, Context mActivity) {
+    public HomeListAdapter(List<FindListBean.PayloadBean.PostsBean> list, Context mActivity) {
         this.list = list;
         this.mActivity = mActivity;
     }
@@ -55,7 +55,7 @@ public class FindListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final OrderViewHolder oholder = (OrderViewHolder) holder;
         FindListBean.PayloadBean.PostsBean bean = list.get(position);
-        String cover = String.format("https://storage.kuula.co/%s/01-tinyp-cover.jpg", bean.getUuid());
+        String cover = String.format("https://storage.kuula.co/%s/01-cover.jpg", bean.getUuid());
         Log.d("cover", cover);
         Glide.with(mActivity)
                 .load(cover)
@@ -73,7 +73,7 @@ public class FindListAdapter extends RecyclerView.Adapter {
             });
         }
         oholder.tvname.setText(bean.getUser().getDisplayname());
-        oholder.tvdes.setText(bean.getDescription());
+
 
     }
 
@@ -87,8 +87,6 @@ public class FindListAdapter extends RecyclerView.Adapter {
         ImageView iv;
         @Bind(R.id.tv_name)
         TextView tvname;
-        @Bind(R.id.tv_des)
-        TextView tvdes;
 
         public OrderViewHolder(View view) {
             super(view);
