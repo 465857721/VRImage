@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 public class SharePreferenceUtil {
     private static final String HIGH = "high";
+    private static final String NAME = "name";
+    private static final String HEADURL = "headurl";
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
@@ -22,5 +24,21 @@ public class SharePreferenceUtil {
         return sp.getBoolean(HIGH, true);
     }
 
+    public void setName(String name) {
+        editor.putString(NAME, name);
+        editor.commit();
+    }
 
+    public String getName() {
+        return sp.getString(NAME, "");
+    }
+
+    public void setHeadurl(String url) {
+        editor.putString(HEADURL, url);
+        editor.commit();
+    }
+
+    public String getHeadurl() {
+        return sp.getString(HEADURL, "");
+    }
 }

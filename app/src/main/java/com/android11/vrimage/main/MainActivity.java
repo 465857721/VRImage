@@ -1,17 +1,24 @@
 package com.android11.vrimage.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.android11.vrimage.R;
 import com.android11.vrimage.find.FindFragment;
 import com.android11.vrimage.home.HomeFragment;
+import com.android11.vrimage.login.LoginActivity;
+import com.android11.vrimage.login.event.LoginEvent;
 import com.android11.vrimage.my.MyFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +47,14 @@ public class MainActivity extends BaseActivity {
                     vp.setCurrentItem(1);
                     return true;
                 case R.id.navigation_notifications:
-                    vp.setCurrentItem(2);
+                    if (TextUtils.isEmpty(spu.getName())) {
+                        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(loginIntent);
+                    } else {
+                        vp.setCurrentItem(2);
+                    }
+
+
                     return true;
             }
             return false;
@@ -53,9 +67,19 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
     }
 
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginEvent event) {
+        vp.setCurrentItem(2);
+    }
     private void initView() {
         HomeFragment f1 = new HomeFragment();
         FindFragment f2 = new FindFragment();
