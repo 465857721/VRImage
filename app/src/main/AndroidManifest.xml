@@ -20,27 +20,15 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:largeHeap="true"
         android:name=".main.APP"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.MainActivity"
-            android:label="@string/app_name">
-
-        </activity>
-        <activity
-            android:name=".main.VrImageDetailActivity"
-            android:theme="@style/AppThemeDarkActionBar"/>
-        <activity
-            android:name=".login.LoginActivity"/>
-        <activity
-            android:name=".main.AboutActivity"/>
-        <activity
-            android:name=".guide.GuideActivity">
+            android:name=".main.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -49,30 +37,56 @@
 
         </activity>
         <activity
+            android:name=".main.MainActivity"
+            android:label="@string/app_name">
+
+        </activity>
+        <activity
+            android:name=".guide.GuideActivity"/>
+        <activity
+            android:name=".main.VrImageDetailActivity"
+            android:theme="@style/AppThemeDarkActionBar"/>
+        <activity
+            android:name=".login.LoginActivity"/>
+        <activity
+            android:name=".main.AboutActivity"/>
+
+        <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent100424468" />
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="tencent100424468"/>
             </intent-filter>
 
         </activity>
 
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="59897a021c5dd043470006e2"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="guanwang"/>
+
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false"/>
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
+
     </application>
 
 </manifest>

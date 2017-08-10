@@ -15,12 +15,12 @@ public class SharePreferenceUtil {
         editor = sp.edit();
     }
 
-    public void setHighQulit(boolean high) {
+    public void setGoGlide(boolean high) {
         editor.putBoolean(HIGH, high);
         editor.commit();
     }
 
-    public boolean getHighQulit() {
+    public boolean getGoGlide() {
         return sp.getBoolean(HIGH, true);
     }
 

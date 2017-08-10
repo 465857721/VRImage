@@ -7,8 +7,8 @@ android {
         applicationId "com.android11.vriamge"
         minSdkVersion 19
         targetSdkVersion 19
-        versionCode 100
-        versionName "1.0.0beta"
+        versionCode 101
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -45,11 +45,6 @@ dependencies {
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     compile 'com.liulishuo.filedownloader:library:1.6.2'
     compile 'com.lzy.net:okgo:3.0.4'
-    compile 'com.google.vr:sdk-panowidget:1.70.0'
+    compile 'com.google.vr:sdk-panowidget:1.80.0'
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
-    compile files('libs/open_sdk_r5788_lite.jar')
-    compile files('libs/SocialSDK_QQ_Full.jar')
-    compile files('libs/umeng_social_api.jar')
-    compile files('libs/umeng_social_net.jar')
-    compile files('libs/umeng_social_tool.jar')
 }
