@@ -24,6 +24,6 @@ public class APP extends Application {
     }
 
     {
-        PlatformConfig.setQQZone("1105034952", "IXtK5xIFr2wKZXvp");
+        PlatformConfig.setQQZone("1106262001", "ZJU9H0iSoshpRcSi");
     }
 }

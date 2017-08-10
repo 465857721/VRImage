@@ -40,7 +40,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void setStatusBar() {
 
 
-//        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
     @Override
