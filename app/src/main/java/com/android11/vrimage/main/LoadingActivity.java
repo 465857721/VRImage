@@ -16,6 +16,7 @@ import com.android11.vrimage.R;
 import com.android11.vrimage.guide.GuideActivity;
 import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
+import com.qq.e.comm.util.AdError;
 
 
 public class LoadingActivity extends BaseActivity implements SplashADListener {
@@ -39,7 +40,7 @@ public class LoadingActivity extends BaseActivity implements SplashADListener {
         skipView = (TextView) findViewById(R.id.skip_view);
         splashHolder = (ImageView) findViewById(R.id.splash_holder);
 
-        fetchSplashAD(this, container, skipView, "1101189414", "9060124323597588", this, 0);
+        fetchSplashAD(this, container, skipView, "1106343208", "2090922439607008", this, 5000);
 
 
 //        Timer time = new Timer();
@@ -104,10 +105,11 @@ public class LoadingActivity extends BaseActivity implements SplashADListener {
     }
 
     @Override
-    public void onNoAD(int arg0) {
-        Log.i("AD_DEMO", "LoadSplashADFail,ecode=" + arg0);
+    public void onNoAD(AdError adError) {
+        Log.i("AD_DEMO", "LoadSplashADFail,ecode=" + adError.getErrorCode());
         next();
     }
+
 
 
     @Override
