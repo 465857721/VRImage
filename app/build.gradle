@@ -10,6 +10,7 @@ android {
         versionCode 150
         versionName "1.5.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "releaseTime","\"" +java.lang.System.currentTimeMillis()+"\"")
     }
     buildTypes {
         release {
