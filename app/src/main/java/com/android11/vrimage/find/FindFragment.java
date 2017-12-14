@@ -4,12 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
 import com.android11.vrimage.R;
 import com.android11.vrimage.find.adapter.FindListAdapter;
 import com.android11.vrimage.find.bean.FindListBean;
@@ -25,12 +31,12 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class FindFragment extends Fragment implements FindListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
-    @Bind(R.id.listview)
+    @BindView(R.id.listview)
     SuperRecyclerView listview;
     private List<FindListBean.PayloadBean.PostsBean> list = new ArrayList<>();
     private FindListAdapter adapter;
@@ -43,8 +49,9 @@ public class FindFragment extends Fragment implements FindListAdapter.OnItemClic
         View v = inflater.inflate(R.layout.frag_find, null);
 //        StatusBarUtil.setColor(getActivity(), ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
         ButterKnife.bind(this, v);
-
-
+        Toolbar toolbar = v.findViewById(R.id.toolbar);
+      ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
         adapter = new FindListAdapter(list, getActivity());
         listview.setLayoutManager(new GridLayoutManager(getContext(), 2));
         listview.setAdapter(adapter);
@@ -53,6 +60,28 @@ public class FindFragment extends Fragment implements FindListAdapter.OnItemClic
         listview.setRefreshing(true);
         getData(page++);
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_openfile:
+                new FileChooserDialog.Builder(getActivity())
+                        .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                        .mimeType("image/*") // Optional MIME type filter
+                        .extensionsFilter(".png", ".jpg") // Optional extension filter, will override mimeType()
+                        .tag("optional-identifier")
+                        .goUpLabel("Up") // custom go up label, default label is "..."
+                        .show(getActivity());
+                break;
+        }
+        return true;
     }
 
     private void getData(final int p) {
@@ -83,7 +112,6 @@ public class FindFragment extends Fragment implements FindListAdapter.OnItemClic
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

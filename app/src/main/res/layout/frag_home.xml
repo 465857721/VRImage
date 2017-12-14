@@ -5,18 +5,14 @@
               android:background="@color/colorBg"
               android:orientation="vertical">
 
-    <LinearLayout
-        android:background="@color/colorPrimary"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
-            android:gravity="center"
-            android:text="推荐"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="推荐"/>
 
     <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/listview"

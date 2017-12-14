@@ -20,18 +20,18 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class LoginActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.iv_qq)
+    @BindView(R.id.iv_qq)
     ImageView ivQq;
-    @Bind(R.id.iv_weixin)
+    @BindView(R.id.iv_weixin)
     ImageView ivWeixin;
 
     private Context mContext;

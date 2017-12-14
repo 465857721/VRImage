@@ -19,7 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -27,9 +27,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyFragment extends BaseFragment {
 
-    @Bind(R.id.ivhead)
+    @BindView(R.id.ivhead)
     CircleImageView ivhead;
-    @Bind(R.id.tv_name)
+    @BindView(R.id.tv_name)
     TextView tvName;
 
     @Override
@@ -52,7 +52,6 @@ public class MyFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
 
     }
 
@@ -64,7 +63,7 @@ public class MyFragment extends BaseFragment {
 
     private void initView() {
         tvName.setText(spu.getName());
-        Glide.with(this).load(spu.getHeadurl()).dontAnimate().into(ivhead);
+        Glide.with(this).load(spu.getHeadurl()).into(ivhead);
     }
 
     @OnClick({R.id.ll_comment, R.id.ll_send, R.id.ll_about})

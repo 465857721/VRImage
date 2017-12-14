@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
 import com.android11.vrimage.R;
 import com.android11.vrimage.find.FindFragment;
 import com.android11.vrimage.home.HomeFragment;
@@ -20,16 +21,17 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
-    @Bind(R.id.vp)
+public class MainActivity extends BaseActivity implements FileChooserDialog.FileCallback{
+    @BindView(R.id.vp)
     ViewPager vp;
-    @Bind(R.id.navigation)
+    @BindView(R.id.navigation)
     BottomNavigationView navigation;
 
     private List<Fragment> list_fragment = new ArrayList<>();
@@ -50,11 +52,10 @@ public class MainActivity extends BaseActivity {
                     if (TextUtils.isEmpty(spu.getName())) {
                         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(loginIntent);
+                        return false;
                     } else {
                         vp.setCurrentItem(2);
                     }
-
-
                     return true;
             }
             return false;
@@ -75,7 +76,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 
     @Override
@@ -117,6 +117,18 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
+    }
+    @Override
+    public void onFileSelection(@NonNull FileChooserDialog dialog, @NonNull File file) {
+        Intent go = new Intent(this, VrImageDetailActivity.class);
+        go.putExtra("path", file.getAbsolutePath());
+
+        startActivity(go);
+    }
+
+    @Override
+    public void onFileChooserDismissed(@NonNull FileChooserDialog dialog) {
 
     }
 }

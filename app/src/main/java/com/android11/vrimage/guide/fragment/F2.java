@@ -17,15 +17,15 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import java.io.IOException;
 import java.io.InputStream;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class F2 extends Fragment {
 
-    @Bind(R.id.vr_pano)
+    @BindView(R.id.vr_pano)
     VrPanoramaView vrPano;
-    @Bind(R.id.tv_tips)
+    @BindView(R.id.tv_tips)
     TextView tvTips;
 
     @Override
@@ -56,7 +56,6 @@ public class F2 extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     private Bitmap getImageFromAssetsFile(String fileName) {

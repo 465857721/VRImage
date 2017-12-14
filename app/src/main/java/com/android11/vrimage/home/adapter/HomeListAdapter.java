@@ -12,10 +12,11 @@ import android.widget.TextView;
 import com.android11.vrimage.R;
 import com.android11.vrimage.find.bean.FindListBean;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -60,11 +61,9 @@ public class HomeListAdapter extends RecyclerView.Adapter {
 
         Log.d("cover", cover);
         Glide.with(mActivity)
-                .load(cover)
-                .centerCrop()
+                .load(cover).apply(new RequestOptions().centerCrop()
                 .placeholder(R.drawable.ic_default)
-                .dontAnimate()
-//                .transition(new DrawableTransitionOptions().dontTransition())
+                .dontAnimate())
                 .into(oholder.iv);
         if (mOnItemClickLitener != null) {
             oholder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -78,10 +77,9 @@ public class HomeListAdapter extends RecyclerView.Adapter {
         oholder.tvname.setText(bean.getUser().getDisplayname());
         String head = String.format("https://files.kuula.io/users/%s-icon.jpg", bean.getUser().getName());
         Glide.with(mActivity)
-                .load(head)
-                .centerCrop()
+                .load(head).apply(new RequestOptions().centerCrop()
                 .placeholder(R.drawable.default_avatar_round)
-                .dontAnimate()
+                .dontAnimate())
                 .into(oholder.ivhead);
     }
 
@@ -91,11 +89,11 @@ public class HomeListAdapter extends RecyclerView.Adapter {
     }
 
     class OrderViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.iv)
+        @BindView(R.id.iv)
         ImageView iv;
-        @Bind(R.id.tv_name)
+        @BindView(R.id.tv_name)
         TextView tvname;
-        @Bind(R.id.ivhead)
+        @BindView(R.id.ivhead)
         CircleImageView ivhead;
         public OrderViewHolder(View view) {
             super(view);

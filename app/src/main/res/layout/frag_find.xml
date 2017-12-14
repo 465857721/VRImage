@@ -1,26 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:background="@color/colorBg"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:background="@color/colorPrimary"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/app_name"/>
 
     <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/listview"
-        app:layout_moreProgress="@layout/view_more_progress"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:layout_moreProgress="@layout/view_more_progress" />
 </LinearLayout>

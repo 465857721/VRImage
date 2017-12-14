@@ -11,14 +11,15 @@ import com.android11.vrimage.R;
 import com.android11.vrimage.main.BaseFragment;
 import com.android11.vrimage.main.MainActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class F3 extends BaseFragment {
 
-    @Bind(R.id.btn_go)
+    @BindView(R.id.btn_go)
     Button btnGo;
 
     @Override
@@ -35,7 +36,6 @@ public class F3 extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.btn_go)

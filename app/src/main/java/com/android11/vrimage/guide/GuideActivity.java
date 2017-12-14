@@ -17,20 +17,20 @@ import com.android11.vrimage.main.HomeFragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class GuideActivity extends BaseActivity {
-    @Bind(R.id.vp)
+    @BindView(R.id.vp)
     ViewPager vp;
-    @Bind(R.id.content)
+    @BindView(R.id.content)
     FrameLayout content;
-    @Bind(R.id.tv_index1)
+    @BindView(R.id.tv_index1)
     TextView tvIndex1;
-    @Bind(R.id.tv_index2)
+    @BindView(R.id.tv_index2)
     TextView tvIndex2;
-    @Bind(R.id.tv_index3)
+    @BindView(R.id.tv_index3)
     TextView tvIndex3;
     private List<Fragment> list_fragment = new ArrayList<>();
 

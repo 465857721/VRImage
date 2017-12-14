@@ -26,12 +26,12 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class HomeFragment extends Fragment implements HomeListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
-    @Bind(R.id.listview)
+    @BindView(R.id.listview)
     SuperRecyclerView listview;
     private List<FindListBean.PayloadBean.PostsBean> list = new ArrayList<>();
     private HomeListAdapter adapter;
@@ -84,7 +84,6 @@ public class HomeFragment extends Fragment implements HomeListAdapter.OnItemClic
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

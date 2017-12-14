@@ -12,10 +12,11 @@ import android.widget.TextView;
 import com.android11.vrimage.R;
 import com.android11.vrimage.find.bean.FindListBean;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -58,11 +59,9 @@ public class FindListAdapter extends RecyclerView.Adapter {
         String cover = String.format("https://storage.kuula.co/%s/01-tinyp-cover.jpg", bean.getUuid());
         Log.d("cover", cover);
         Glide.with(mActivity)
-                .load(cover)
-                .centerCrop()
+                .load(cover).apply(new RequestOptions().centerCrop()
                 .placeholder(R.drawable.ic_default)
-                .dontAnimate()
-//                .transition(new DrawableTransitionOptions().dontTransition())
+                .dontAnimate())
                 .into(oholder.iv);
         if (mOnItemClickLitener != null) {
             oholder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -83,14 +82,14 @@ public class FindListAdapter extends RecyclerView.Adapter {
     }
 
     class OrderViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.iv)
+        @BindView(R.id.iv)
         ImageView iv;
-        @Bind(R.id.tv_name)
+        @BindView(R.id.tv_name)
         TextView tvname;
-        @Bind(R.id.tv_des)
+        @BindView(R.id.tv_des)
         TextView tvdes;
 
-        public OrderViewHolder(View view) {
+        OrderViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
