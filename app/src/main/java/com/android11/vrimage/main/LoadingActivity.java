@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.android11.vrimage.BuildConfig;
 import com.android11.vrimage.R;
 import com.android11.vrimage.guide.GuideActivity;
+import com.android11.vrimage.utils.Tools;
 import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
 import com.qq.e.comm.util.AdError;
@@ -45,13 +46,16 @@ public class LoadingActivity extends BaseActivity implements SplashADListener {
         skipView =  findViewById(R.id.skip_view);
         splashHolder =  findViewById(R.id.splash_holder);
 
-        if (getAppMetaData(this, "UMENG_CHANNEL").equals("vivo")
-                || getAppMetaData(this, "UMENG_CHANNEL").equals("oppo")) {
-            if (System.currentTimeMillis() - Long.valueOf(BuildConfig.releaseTime) < 3 * 24 * 60 * 60 * 1000) {
+        String[] cArray = getResources().getStringArray(R.array.channel);
+        for (String c : cArray) {
+            String channel = Tools.getAppMetaData(this, "UMENG_CHANNEL");
+            if (c.equals(channel)
+                    && (System.currentTimeMillis() - Long.valueOf(BuildConfig.releaseTime) < 2 * 24 * 60 * 60 * 1000)) {
                 next();
                 return;
             }
         }
+
         fetchSplashAD(this, container, skipView, "1106343208", "2090922439607008", this, 5000);
     }
 

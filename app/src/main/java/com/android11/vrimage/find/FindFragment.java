@@ -1,14 +1,11 @@
 package com.android11.vrimage.find;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,42 +13,55 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
+import com.android11.vrimage.BuildConfig;
 import com.android11.vrimage.R;
 import com.android11.vrimage.find.adapter.FindListAdapter;
 import com.android11.vrimage.find.bean.FindListBean;
+import com.android11.vrimage.main.BaseLazyFragment;
 import com.android11.vrimage.main.VrImageDetailActivity;
 import com.android11.vrimage.utils.Const;
 import com.android11.vrimage.utils.GsonUtils;
+import com.android11.vrimage.utils.Tools;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.qq.e.ads.banner.ADSize;
+import com.qq.e.ads.banner.AbstractBannerADListener;
+import com.qq.e.ads.banner.BannerView;
+import com.qq.e.comm.util.AdError;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
-public class FindFragment extends Fragment implements FindListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
+public class FindFragment extends BaseLazyFragment implements FindListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
     @BindView(R.id.listview)
     SuperRecyclerView listview;
     private List<FindListBean.PayloadBean.PostsBean> list = new ArrayList<>();
     private FindListAdapter adapter;
     private int page = 0;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    private ViewGroup bannerContainer;
+    private BannerView bv;
 
-        View v = inflater.inflate(R.layout.frag_find, null);
-//        StatusBarUtil.setColor(getActivity(), ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-        ButterKnife.bind(this, v);
-        Toolbar toolbar = v.findViewById(R.id.toolbar);
-      ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+    @Override
+    protected void initView() {
+        Toolbar toolbar = mRootView.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    protected int setLayoutId() {
+        return R.layout.frag_find;
+    }
+
+    @Override
+    protected void initData() {
         adapter = new FindListAdapter(list, getActivity());
         listview.setLayoutManager(new GridLayoutManager(getContext(), 2));
         listview.setAdapter(adapter);
@@ -59,7 +69,55 @@ public class FindFragment extends Fragment implements FindListAdapter.OnItemClic
         listview.setRefreshListener(this);
         listview.setRefreshing(true);
         getData(page++);
-        return v;
+        bannerContainer = mRootView.findViewById(R.id.bv);
+        initAd();
+    }
+
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
+
+    private void initAd() {
+
+
+        initBanner();
+        if (Tools.getAppMetaData(getContext(), "UMENG_CHANNEL").equals("vivo")
+                || Tools.getAppMetaData(getContext(), "UMENG_CHANNEL").equals("oppo")
+                || Tools.getAppMetaData(getContext(), "UMENG_CHANNEL").equals("ali")) {
+            if (System.currentTimeMillis() - Long.valueOf(BuildConfig.releaseTime) < 2 * 24 * 60 * 60 * 1000) {
+                bv.loadAD();
+            }
+        } else {
+            bv.loadAD();
+        }
+    }
+
+    private void initBanner() {
+        //yyb
+        // this.bv = new BannerView(this, ADSize.BANNER, "1101189414", "5040624571474334");
+        //baidu
+        this.bv = new BannerView(getActivity(), ADSize.BANNER, "1106343208", "4070833002664776");
+
+        bv.setRefresh(30);
+        bv.setADListener(new AbstractBannerADListener() {
+
+//            @Override
+//            public void onNoAD(int arg0) {
+//                Log.d("zk","onNoAD");
+//            }
+
+            @Override
+            public void onNoAD(AdError adError) {
+                Log.e("AD_DEMO", "onNoAD");
+            }
+
+            @Override
+            public void onADReceiv() {
+                Log.e("AD_DEMO", "onADReceiv");
+            }
+        });
+        bannerContainer.addView(bv);
     }
 
     @Override
@@ -70,7 +128,7 @@ public class FindFragment extends Fragment implements FindListAdapter.OnItemClic
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_openfile:
                 new FileChooserDialog.Builder(getActivity())
                         .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory

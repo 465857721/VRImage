@@ -3,15 +3,18 @@ package com.android11.vrimage.my;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android11.vrimage.R;
+import com.android11.vrimage.login.LoginActivity;
 import com.android11.vrimage.login.event.LoginEvent;
 import com.android11.vrimage.main.AboutActivity;
-import com.android11.vrimage.main.BaseFragment;
+import com.android11.vrimage.main.BaseLazyFragment;
 import com.android11.vrimage.utils.Tools;
 import com.bumptech.glide.Glide;
 
@@ -20,28 +23,23 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MyFragment extends BaseFragment {
+public class MyFragment extends BaseLazyFragment {
 
     @BindView(R.id.ivhead)
     CircleImageView ivhead;
     @BindView(R.id.tv_name)
     TextView tvName;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.frag_my, null);
-        ButterKnife.bind(this, v);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
-        initView();
-        return v;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -52,7 +50,6 @@ public class MyFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
     @Override
@@ -61,12 +58,27 @@ public class MyFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    private void initView() {
-        tvName.setText(spu.getName());
-        Glide.with(this).load(spu.getHeadurl()).into(ivhead);
+    @Override
+    protected int setLayoutId() {
+        return R.layout.frag_my;
     }
 
-    @OnClick({R.id.ll_comment, R.id.ll_send, R.id.ll_about})
+    @Override
+    protected void initView() {
+        if (!TextUtils.isEmpty(spu.getName()))
+            tvName.setText(spu.getName());
+        if (!TextUtils.isEmpty(spu.getHeadurl()))
+            Glide.with(this).load(spu.getHeadurl()).into(ivhead);
+
+
+    }
+
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
+
+    @OnClick({R.id.ll_comment, R.id.ll_send, R.id.ll_about,R.id.ivhead,R.id.tv_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_comment:
@@ -79,8 +91,16 @@ public class MyFragment extends BaseFragment {
                 Intent about = new Intent(getActivity(), AboutActivity.class);
                 startActivity(about);
                 break;
+            case R.id.ivhead:
+            case R.id.tv_name:
+                if (TextUtils.isEmpty(spu.getName())) {
+                    Intent loginIntent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(loginIntent);
+                }
+                break;
         }
     }
+
     /****************
      *
      * 发起添加群流程。群号：VR全景照片(614619551) 的 key 为： QsNrk2xeVNs5g1EnylBr_0g69RThSmPz

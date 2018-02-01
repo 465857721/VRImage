@@ -10,18 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android11.vrimage.BuildConfig;
 import com.android11.vrimage.R;
-import com.android11.vrimage.find.adapter.FindListAdapter;
 import com.android11.vrimage.find.bean.FindListBean;
 import com.android11.vrimage.home.adapter.HomeListAdapter;
+import com.android11.vrimage.main.BaseLazyFragment;
 import com.android11.vrimage.main.VrImageDetailActivity;
 import com.android11.vrimage.utils.Const;
 import com.android11.vrimage.utils.GsonUtils;
+import com.android11.vrimage.utils.Tools;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.qq.e.ads.banner.ADSize;
+import com.qq.e.ads.banner.AbstractBannerADListener;
+import com.qq.e.ads.banner.BannerView;
+import com.qq.e.comm.util.AdError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,22 +36,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class HomeFragment extends Fragment implements HomeListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
+public class HomeFragment extends BaseLazyFragment implements HomeListAdapter.OnItemClickLitener, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
     @BindView(R.id.listview)
     SuperRecyclerView listview;
     private List<FindListBean.PayloadBean.PostsBean> list = new ArrayList<>();
     private HomeListAdapter adapter;
     private int page = 0;
+    private ViewGroup bannerContainer;
+    private BannerView bv;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.frag_home, null);
-//        StatusBarUtil.setColor(getActivity(), ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-        ButterKnife.bind(this, v);
-
-
+    protected void initData() {
         adapter = new HomeListAdapter(list, getActivity());
         listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
         listview.setAdapter(adapter);
@@ -53,7 +54,60 @@ public class HomeFragment extends Fragment implements HomeListAdapter.OnItemClic
         listview.setRefreshListener(this);
         listview.setRefreshing(true);
         getData(page++);
-        return v;
+        bannerContainer = mRootView.findViewById(R.id.bv);
+        initAd();
+    }
+
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
+
+    @Override
+    protected int setLayoutId() {
+        return R.layout.frag_home;
+    }
+
+    private void initAd() {
+
+
+        initBanner();
+        if (Tools.getAppMetaData(getContext(), "UMENG_CHANNEL").equals("vivo")
+                || Tools.getAppMetaData(getContext(), "UMENG_CHANNEL").equals("oppo")
+                || Tools.getAppMetaData(getContext(), "UMENG_CHANNEL").equals("ali")) {
+            if (System.currentTimeMillis() - Long.valueOf(BuildConfig.releaseTime) < 2 * 24 * 60 * 60 * 1000) {
+                bv.loadAD();
+            }
+        } else {
+            bv.loadAD();
+        }
+    }
+
+    private void initBanner() {
+        //yyb
+        // this.bv = new BannerView(this, ADSize.BANNER, "1101189414", "5040624571474334");
+        //baidu
+        this.bv = new BannerView(getActivity(), ADSize.BANNER, "1106343208", "4070833002664776");
+
+        bv.setRefresh(30);
+        bv.setADListener(new AbstractBannerADListener() {
+
+//            @Override
+//            public void onNoAD(int arg0) {
+//                Log.d("zk","onNoAD");
+//            }
+
+            @Override
+            public void onNoAD(AdError adError) {
+                Log.e("AD_DEMO", "onNoAD");
+            }
+
+            @Override
+            public void onADReceiv() {
+                Log.e("AD_DEMO", "onADReceiv");
+            }
+        });
+        bannerContainer.addView(bv);
     }
 
     private void getData(final int p) {
@@ -69,7 +123,7 @@ public class HomeFragment extends Fragment implements HomeListAdapter.OnItemClic
                         }
                         list.addAll(bean.getPayload().getPosts());
                         adapter.notifyDataSetChanged();
-                        if(listview==null)
+                        if (listview == null)
                             return;
                         listview.setRefreshing(false);
                         if (bean.getPayload().getPosts().size() > 0) {

@@ -7,17 +7,18 @@ android {
         applicationId "com.android11.vriamge"
         minSdkVersion 19
         targetSdkVersion 19
-        versionCode 150
-        versionName "1.5.0"
+        versionCode 160
+        versionName "1.6.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "releaseTime","\"" +java.lang.System.currentTimeMillis()+"\"")
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+    //配置keystore签名
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load( inputStream )
+    def keyDir = properties.getProperty('key.file')
+
+
 }
 
 dependencies {
@@ -31,15 +32,14 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     //    compile 'com.github.bumptech.glide:glide:4.0.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.malinskiy:superrecyclerview:1.1.4'
     //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.jaeger.statusbarutil:library:1.4.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     //    compile 'com.github.bumptech.glide:okhttp3-integration:1.5.0@aar'
     compile 'com.wang.avi:library:2.1.3'
@@ -52,4 +52,5 @@ dependencies {
     compile 'com.lzy.net:okgo:3.0.4'
     compile 'com.google.vr:sdk-panowidget:1.80.0'
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
+    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
 }

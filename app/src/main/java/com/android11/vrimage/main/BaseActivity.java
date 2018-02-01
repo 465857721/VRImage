@@ -2,13 +2,12 @@ package com.android11.vrimage.main;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android11.vrimage.R;
 import com.android11.vrimage.utils.SharePreferenceUtil;
 import com.android11.vrimage.utils.Tools;
-import com.jaeger.library.StatusBarUtil;
+import com.gyf.barlibrary.ImmersionBar;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -38,9 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void setStatusBar() {
-
-
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        ImmersionBar.with(this).statusBarColor(R.color.colorPrimaryDark).init();
     }
 
     @Override

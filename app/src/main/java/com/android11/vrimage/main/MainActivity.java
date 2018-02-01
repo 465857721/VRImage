@@ -16,6 +16,7 @@ import com.android11.vrimage.home.HomeFragment;
 import com.android11.vrimage.login.LoginActivity;
 import com.android11.vrimage.login.event.LoginEvent;
 import com.android11.vrimage.my.MyFragment;
+import com.gyf.barlibrary.ImmersionBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements FileChooserDialog.FileCallback{
+public class MainActivity extends BaseActivity implements FileChooserDialog.FileCallback {
     @BindView(R.id.vp)
     ViewPager vp;
     @BindView(R.id.navigation)
@@ -49,13 +50,7 @@ public class MainActivity extends BaseActivity implements FileChooserDialog.File
                     vp.setCurrentItem(1);
                     return true;
                 case R.id.navigation_notifications:
-                    if (TextUtils.isEmpty(spu.getName())) {
-                        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(loginIntent);
-                        return false;
-                    } else {
-                        vp.setCurrentItem(2);
-                    }
+                    vp.setCurrentItem(2);
                     return true;
             }
             return false;
@@ -68,6 +63,8 @@ public class MainActivity extends BaseActivity implements FileChooserDialog.File
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+
         EventBus.getDefault().register(this);
         initView();
         vp.setOffscreenPageLimit(3);
@@ -83,10 +80,12 @@ public class MainActivity extends BaseActivity implements FileChooserDialog.File
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LoginEvent event) {
         vp.setCurrentItem(2);
     }
+
     private void initView() {
         HomeFragment f1 = new HomeFragment();
         FindFragment f2 = new FindFragment();
@@ -119,6 +118,7 @@ public class MainActivity extends BaseActivity implements FileChooserDialog.File
         });
 
     }
+
     @Override
     public void onFileSelection(@NonNull FileChooserDialog dialog, @NonNull File file) {
         Intent go = new Intent(this, VrImageDetailActivity.class);
