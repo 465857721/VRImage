@@ -78,7 +78,7 @@ public class MyFragment extends BaseLazyFragment {
         return false;
     }
 
-    @OnClick({R.id.ll_comment, R.id.ll_send, R.id.ll_about,R.id.ivhead,R.id.tv_name})
+    @OnClick({R.id.ll_comment, R.id.ll_send, R.id.ll_about, R.id.ivhead, R.id.tv_name, R.id.ll_share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_comment:
@@ -90,6 +90,16 @@ public class MyFragment extends BaseLazyFragment {
             case R.id.ll_about:
                 Intent about = new Intent(getActivity(), AboutActivity.class);
                 startActivity(about);
+                break;
+            case R.id.ll_share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+// 比如发送文本形式的数据内容
+// 指定发送的内容
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "VR全景照片 http://a.app.qq.com/o/simple.jsp?pkgname=com.android11.vriamge");
+// 指定发送内容的类型
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "分享APP到"));
                 break;
             case R.id.ivhead:
             case R.id.tv_name:
