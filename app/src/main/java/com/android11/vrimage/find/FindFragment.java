@@ -1,6 +1,7 @@
 package com.android11.vrimage.find;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -131,7 +132,7 @@ public class FindFragment extends BaseLazyFragment implements FindListAdapter.On
         switch (item.getItemId()) {
             case R.id.action_openfile:
                 new FileChooserDialog.Builder(getActivity())
-                        .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                        .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                         .mimeType("image/*") // Optional MIME type filter
                         .extensionsFilter(".png", ".jpg") // Optional extension filter, will override mimeType()
                         .tag("optional-identifier")
