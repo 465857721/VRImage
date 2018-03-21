@@ -43,6 +43,7 @@ public class VrImageDetailActivity extends BaseActivity {
     NumberProgressBar progressBar;
 
     private Bitmap imageBitmap;
+    private String localUrl = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +88,12 @@ public class VrImageDetailActivity extends BaseActivity {
                 break;
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.action_share:
+                Tools.shareMsg(this, getString(R.string.app_name),
+                        "发现新世界", "下载地址：http://a.app.qq.com/o/simple.jsp?pkgname=com.android11.vriamge", localUrl);
+                break;
+
         }
         return true;
     }
@@ -139,7 +146,7 @@ public class VrImageDetailActivity extends BaseActivity {
         vrPano.loadImageFromBitmap(
                 imageBitmap,
                 options);
-
+        localUrl = Const.VRIMAGE_PATH + File.separator + getIntent().getStringExtra("uuid") + ".jpg";
     }
 
     private void showLocalImage(File file) {
