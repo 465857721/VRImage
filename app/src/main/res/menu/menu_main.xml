@@ -6,6 +6,6 @@
     <item
         android:id="@+id/action_openfile"
         android:title="打开本地文件"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>
